@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="loading" *ngIf="loading">
+    <p>Loading product details...</p>
+  </div>
+
+  <div class="product-detail" *ngIf="!loading && product">
+    <button routerLink="/" class="btn-back">← Back to Products</button>
+    
+    <div class="product-detail-content">
+      <div class="product-image-large">
+        <img [src]="product.url" [alt]="product.name">
+      </div>
+      
+      <div class="product-details">
+        <h1>{{ product.name }}</h1>
+        <p class="price">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</p>
+        <p class="description">{{ product.description }}</p>
+        
+        <div class="purchase-section">
+          <label for="quantity">Quantity:</label>
+          <select 
+            id="quantity"
+            [(ngModel)]="selectedQuantity" 
+            (ngModelChange)="onQuantityChange($event)"
+            class="quantity-select">
+            <option *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" [value]="num">{{ num }}</option>
+          </select>
+          
+          <button (click)="addToCart()" class="btn-add-to-cart">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

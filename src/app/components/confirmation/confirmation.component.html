@@ -1,0 +1,9 @@
+<div class="container confirmation-page">
+  <div class="success-message">
+    <h1>✓ Order Confirmed!</h1>
+    <p>Thank you for your purchase, <strong>{{ fullName }}</strong>!</p>
+    <p class="order-total">Your order total was: <strong>{{ totalPrice | currency:'USD':'symbol':'1.2-2' }}</strong></p>
+    <p>Your order has been successfully placed and will be shipped soon.</p>
+    <button routerLink="/" class="btn-primary">Continue Shopping</button>
+  </div>
+</div>
