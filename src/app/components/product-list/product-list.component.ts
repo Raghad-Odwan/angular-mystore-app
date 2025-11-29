@@ -29,4 +29,9 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
+
+  
+  onProductAdded(data: {product: Product, quantity: number}): void {
+    console.log(`Product "${data.product.name}" added to cart with quantity: ${data.quantity}`);
+  }
 }

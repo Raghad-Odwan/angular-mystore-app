@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from '../../models/product';
 import { CartService } from '../../services/cart.service';
 
@@ -9,6 +9,8 @@ import { CartService } from '../../services/cart.service';
 })
 export class ProductItemComponent {
   @Input() product!: Product;
+  @Output() productAdded = new EventEmitter<{product: Product, quantity: number}>();
+  
   selectedQuantity: number = 1;
 
   constructor(private cartService: CartService) { }
@@ -16,6 +18,13 @@ export class ProductItemComponent {
   addToCart(): void {
     if (this.selectedQuantity > 0) {
       this.cartService.addToCart(this.product, this.selectedQuantity);
+      
+      // send data to perent by using @Output
+      this.productAdded.emit({
+        product: this.product,
+        quantity: this.selectedQuantity
+      });
+      
       this.selectedQuantity = 1;
     }
   }
