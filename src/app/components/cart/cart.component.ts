@@ -44,34 +44,44 @@ export class CartComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    if (!this.fullName || this.fullName.length < 3) {
-      alert('Please enter a valid full name (at least 3 characters)');
-      return;
-    }
-
-    if (!this.address) {
-      alert('Please enter your address');
-      return;
-    }
-
-    if (!this.creditCard || this.creditCard.length < 16) {
-      alert('Please enter a valid credit card number (at least 16 digits)');
-      return;
-    }
-
-    if (this.cartItems.length === 0) {
-      alert('Your cart is empty!');
-      return;
-    }
-
-    this.router.navigate(['/confirmation'], {
-      state: {
-        fullName: this.fullName,
-        totalPrice: this.totalPrice
-      }
-    });
-
-    this.cartService.clearCart();
+onSubmit(): void {
+  // Validate full name
+  if (!this.fullName || this.fullName.trim().length < 3) {
+    alert('Please enter a valid full name (at least 3 characters)');
+    return;
   }
+
+  // Validate address
+  if (!this.address || this.address.trim().length === 0) {
+    alert('Please enter your address');
+    return;
+  }
+
+  // Validate credit card - NUMBERS ONLY (16 digits)
+  const creditCardRegex = /^\d{16}$/;
+  if (!this.creditCard || !creditCardRegex.test(this.creditCard)) {
+    alert('Please enter a valid 16-digit credit card number (numbers only)');
+    return;
+  }
+
+  // Check if cart is empty
+  if (this.cartItems.length === 0) {
+    alert('Your cart is empty!');
+    return;
+  }
+
+  // Navigate to confirmation page
+  this.router.navigate(['/confirmation'], {
+    state: {
+      fullName: this.fullName,
+      totalPrice: this.totalPrice
+    }
+  });
+
+  // Clear cart and form
+  this.cartService.clearCart();
+  this.fullName = '';
+  this.address = '';
+  this.creditCard = '';
+}
 }
